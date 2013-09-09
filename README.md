@@ -1,13 +1,13 @@
-# CatarsePagosonline
+# CatarsePayulatam
 
-Pagosonline integration with [Catarse](http://github.com/catarse/catarse) crowdfunding platform
+PayU Latam integration with [Catarse](http://github.com/catarse/catarse) crowdfunding platform
 
 ## Installation
 
 Add this lines to your Catarse application's Gemfile:
 
-    gem 'pagosonline', git: 'git://github.com/sagmor/pagosonline.git'
-    gem 'catarse_pagosonline'
+    gem 'payulatam', git: 'git://github.com/danielweinmann/payulatam.git'
+    gem 'catarse_payulatam'
 
 And then execute:
 
@@ -17,37 +17,30 @@ And then execute:
 
 Configure the routes for your Catarse application. Add the following lines in the routes file (config/routes.rb):
 
-    mount CatarsePagosonline::Engine => "/", :as => "catarse_pagosonline"
+    mount CatarsePayulatam::Engine => "/", :as => "catarse_payulatam"
 
 ### Configurations
 
 Create this configurations into Catarse database:
 
-    pagosonline_merchant, pagosonline_ipn_password and pagosonline_country_id
+    payulatam_merchant, payulatam_account, payulatam_key, payulatam_login
 
 In Rails console, run this:
 
-    Configuration.create!(name: "pagosonline_merchant", value: "123456")
-    Configuration.create!(name: "pagosonline_country_id", value: "2")
-    Configuration.create!(name: "pagosonline_ipn_password", value: "ipn_password")
-    Configuration.create!(name: "pagosonline_currency", value: "clp")
-
-  Currencies:
-    "ars"
-    "mxn"
-    "clp"
-    "brl"
-    "usd"
+    Configuration.create!(name: "payulatam_merchant", value: "123456")
+    Configuration.create!(name: "payulatam_account", value: "1234567")
+    Configuration.create!(name: "payulatam_key", value: "31231231241")
+    Configuration.create!(name: "payulatam_login", value: "32131231231231")
 
 ## Development environment setup
 
 Clone the repository:
 
-    $ git clone git://github.com/gustavoguichard/catarse_pagosonline.git
+    $ git clone git://github.com/danielweinmann/catarse_payulatam.git
 
-Add the catarse code into test/dummy:
+Add the Catarse code into test/dummy:
 
-    $ git submodule add git://github.com/catarse_pagosonline/catarse.git test/dummy
+    $ git submodule add git://github.com/catarse/catarse.git test/dummy
 
 Copy the Catarse's gems to Gemfile:
 
@@ -57,7 +50,7 @@ And then execute:
 
     $ bundle
 
-Replace the content of test/dummy/config/boot.rb by this:
+Replace the content of test/dummy/config/boot.rb with this:
 
     require 'rubygems'
     gemfile = File.expand_path('../../../../Gemfile', __FILE__)
@@ -69,13 +62,6 @@ Replace the content of test/dummy/config/boot.rb by this:
     YAML::ENGINE.yamler= 'syck' if defined?(YAML::ENGINE)
 
     $:.unshift File.expand_path('../../../../lib', __FILE__)
-
-
-## Troubleshooting in development environment
-
-Remove the admin folder from test/dummy application to prevent a weird active admin bug:
-
-    $ rm -rf test/dummy/app/admin
 
 ## Contributing
 
