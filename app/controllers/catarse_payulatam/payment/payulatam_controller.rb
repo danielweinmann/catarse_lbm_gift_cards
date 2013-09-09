@@ -1,6 +1,6 @@
 # encoding: utf-8
-module CatarsePagosonline::Payment
-  class PagosonlineController < ApplicationController
+module CatarsePayulatam::Payment
+  class PayulatamController < ApplicationController
     skip_before_filter :verify_authenticity_token, :only => [:notifications]
     skip_before_filter :detect_locale, :only => [:notifications]
     skip_before_filter :set_locale, :only => [:notifications]
@@ -20,8 +20,8 @@ module CatarsePagosonline::Payment
         description: "#{backer.value} donation to #{backer.project.name}",
         amount: backer.price_in_cents,
         currency: 'COP',
-        response_url: payment_success_pagosonline_url(id: backer.id),
-        confirmation_url: payment_notifications_pagosonline_url(id: backer.id),
+        response_url: payment_success_payulatam_url(id: backer.id),
+        confirmation_url: payment_notifications_payulatam_url(id: backer.id),
         language: 'es'
       })
       @form = response.form do |f|
@@ -34,21 +34,21 @@ module CatarsePagosonline::Payment
       begin
         response = @@gateway.Response.new(params)
         if response.valid?
-          backer.update_attribute :payment_method, 'PagosOnline'
+          backer.update_attribute :payment_method, 'PayULatam'
           backer.update_attribute :payment_token, response.transaccion_id
 
           proccess!(backer, response)
 
-          pagosonline_flash_success
+          payulatam_flash_success
           redirect_to main_app.project_backer_path(project_id: backer.project.id, id: backer.id)
         else
-          pagosonline_flash_error
+          payulatam_flash_error
           return redirect_to main_app.new_project_backer_path(backer.project)  
         end
       rescue Exception => e
-        ::Airbrake.notify({ :error_class => "PagosOnline Error", :error_message => "PagosOnline Error: #{e.inspect}", :parameters => params}) rescue nil
+        ::Airbrake.notify({ :error_class => "PayULatam Error", :error_message => "PayULatam Error: #{e.inspect}", :parameters => params}) rescue nil
         Rails.logger.info "-----> #{e.inspect}"
-        pagosonline_flash_error
+        payulatam_flash_error
         return redirect_to main_app.new_project_backer_path(backer.project)
       end
     end
@@ -63,7 +63,7 @@ module CatarsePagosonline::Payment
         render status: 404, nothing: true
       end
     rescue Exception => e
-      ::Airbrake.notify({ :error_class => "PagosOnline Notification Error", :error_message => "PagosOnline Notification Error: #{e.inspect}", :parameters => params}) rescue nil
+      ::Airbrake.notify({ :error_class => "PayULatam Notification Error", :error_message => "PayULatam Notification Error: #{e.inspect}", :parameters => params}) rescue nil
       Rails.logger.info "-----> #{e.inspect}"
       render status: 404, nothing: true
     end
@@ -82,25 +82,25 @@ module CatarsePagosonline::Payment
       end
     end
 
-    def pagosonline_flash_error
-      flash[:failure] = t('pagosonline_error', scope: SCOPE)
+    def payulatam_flash_error
+      flash[:failure] = t('payulatam_error', scope: SCOPE)
     end
 
-    def pagosonline_flash_success
+    def payulatam_flash_success
       flash[:success] = t('success', scope: SCOPE)
     end
 
     def setup_gateway
-      if ::Configuration[:pagosonline_username] and ::Configuration[:pagosonline_key] and ::Configuration[:pagosonline_merchant_id] and ::Configuration[:pagosonline_account_id]
-        @@gateway ||= Pagosonline::Client.new({
-          merchant_id: ::Configuration[:pagosonline_merchant_id],
-          account_id: ::Configuration[:pagosonline_account_id],
-          login: ::Configuration[:pagosonline_username],
-          key: ::Configuration[:pagosonline_key],
+      if ::Configuration[:payulatam_username] and ::Configuration[:payulatam_key] and ::Configuration[:payulatam_merchant_id] and ::Configuration[:payulatam_account_id]
+        @@gateway ||= Payulatam::Client.new({
+          merchant_id: ::Configuration[:payulatam_merchant_id],
+          account_id: ::Configuration[:payulatam_account_id],
+          login: ::Configuration[:payulatam_username],
+          key: ::Configuration[:payulatam_key],
           test: true
         })
       else
-        raise "[PagosOnline] pagosonline_username, pagosonline_key, pagosonline_merchant_id and pagosonline_account_id are required to make requests to PagosOnline"
+        raise "[PayULatam] payulatam_username, payulatam_key, payulatam_merchant_id and payulatam_account_id are required to make requests to PayULatam"
       end
     end
 

@@ -1,1 +1,1 @@
-PaymentEngines.register({name: 'pagosonline', review_path: ->(backer){ CatarsePagosonline::Engine.routes.url_helpers.payment_review_pagosonline_path(backer) }, locale: 'es'})
+PaymentEngines.register({name: 'payulatam', review_path: ->(backer){ CatarsePayulatam::Engine.routes.url_helpers.payment_review_payulatam_path(backer) }, locale: 'es'})

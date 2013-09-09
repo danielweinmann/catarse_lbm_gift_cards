@@ -1,8 +1,8 @@
 source "http://rubygems.org"
 
-# Declare your gem's dependencies in catarse_pagosonline.gemspec.
+# Declare your gem's dependencies in catarse_payulatam.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group
 gemspec
 
-gem 'pagosonline', git: 'git://github.com/sagmor/pagosonline.git'
+gem 'payulatam', git: 'git://github.com/danielweinmann/payulatam.git'source 'https://rubygems.org'
