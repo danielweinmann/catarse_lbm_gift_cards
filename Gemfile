@@ -5,4 +5,4 @@ source "http://rubygems.org"
 # development dependencies will be added by default to the :development group
 gemspec
 
-gem 'payulatam', git: 'git://github.com/danielweinmann/payulatam.git'source 'https://rubygems.org'
+gem 'payulatam', git: 'git://github.com/danielweinmann/payulatam.git'
