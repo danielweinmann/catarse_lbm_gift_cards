@@ -23,7 +23,7 @@ Configure the routes for your Catarse application. Add the following lines in th
 
 Create this configurations into Catarse database:
 
-    payulatam_merchant, payulatam_account, payulatam_key, payulatam_login
+    payulatam_merchant, payulatam_account, payulatam_key, payulatam_login, payulatam_test
 
 In Rails console, run this:
 
@@ -31,6 +31,7 @@ In Rails console, run this:
     Configuration.create!(name: "payulatam_account", value: "1234567")
     Configuration.create!(name: "payulatam_key", value: "31231231241")
     Configuration.create!(name: "payulatam_login", value: "32131231231231")
+    Configuration.create!(name: "payulatam_test", value: "true")
 
 ## Development environment setup
 
