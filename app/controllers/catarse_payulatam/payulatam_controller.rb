@@ -76,6 +76,8 @@ class CatarsePayulatam::PayulatamController < ApplicationController
       backer.confirm!  
     elsif payulatam_response.failure?
       backer.pendent!
+    else
+      backer.waiting! if backer.pending?
     end
   end
 
