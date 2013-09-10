@@ -36,8 +36,8 @@ class CatarsePayulatam::PayulatamController < ApplicationController
     backer = current_user.backs.find params[:id]
     begin
       payulatam_response = Payulatam::Response.new(@@payulatam, params)
+      proccess_payulatam_response(backer, payulatam_response)
       if payulatam_response.valid?
-        proccess_payulatam_response(backer, payulatam_response)
         flash[:success] = t('success', scope: SCOPE)
         redirect_to main_app.project_backer_path(project_id: backer.project.id, id: backer.id)
       else
@@ -55,8 +55,8 @@ class CatarsePayulatam::PayulatamController < ApplicationController
   def confirm
     backer = current_user.backs.find params[:id]
     payulatam_response = Payulatam::Response.new(@@payulatam, params)
+    proccess_payulatam_response(backer, payulatam_response)
     if payulatam_response.valid?
-      proccess_payulatam_response(backer, payulatam_response)
       render status: 200, nothing: true
     else
       render status: 404, nothing: true
