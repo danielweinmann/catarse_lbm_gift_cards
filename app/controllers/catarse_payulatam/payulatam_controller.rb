@@ -45,7 +45,6 @@ class CatarsePayulatam::PayulatamController < ApplicationController
         return redirect_to main_app.new_project_backer_path(backer.project)  
       end
     rescue Exception => e
-      ::Airbrake.notify({ :error_class => "PayULatam Error", :error_message => "PayULatam Error: #{e.inspect}", :parameters => params}) rescue nil
       Rails.logger.info "-----> #{e.inspect}"
       flash[:failure] = t('payulatam_error', scope: SCOPE)
       return redirect_to main_app.new_project_backer_path(backer.project)
@@ -53,7 +52,7 @@ class CatarsePayulatam::PayulatamController < ApplicationController
   end
 
   def confirm
-    backer = current_user.backs.find params[:id]
+    backer = Backer.find params[:id]
     payulatam_response = Payulatam::Response.new(@@payulatam, params)
     proccess_payulatam_response(backer, payulatam_response)
     if payulatam_response.valid?
@@ -62,7 +61,6 @@ class CatarsePayulatam::PayulatamController < ApplicationController
       render status: 404, nothing: true
     end
   rescue Exception => e
-    ::Airbrake.notify({ :error_class => "PayULatam Notification Error", :error_message => "PayULatam Notification Error: #{e.inspect}", :parameters => params}) rescue nil
     Rails.logger.info "-----> #{e.inspect}"
     render status: 404, nothing: true
   end
