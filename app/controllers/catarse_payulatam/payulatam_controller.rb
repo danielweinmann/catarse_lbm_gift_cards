@@ -45,7 +45,7 @@ class CatarsePayulatam::PayulatamController < ApplicationController
         return redirect_to main_app.new_project_backer_path(backer.project)  
       end
     rescue Exception => e
-      Rails.logger.info "-----> #{e.inspect}"
+      Rails.logger.info "PayULatam Response Error -----> #{e.inspect}"
       flash[:failure] = t('payulatam_error', scope: SCOPE)
       return redirect_to main_app.new_project_backer_path(backer.project)
     end
@@ -58,11 +58,11 @@ class CatarsePayulatam::PayulatamController < ApplicationController
     if payulatam_response.valid?
       render status: 200, nothing: true
     else
-      render status: 404, nothing: true
+      render status: 422, nothing: true
     end
   rescue Exception => e
-    Rails.logger.info "-----> #{e.inspect}"
-    render status: 404, nothing: true
+    Rails.logger.info "PayULatam Confirmation Error -----> #{e.inspect}"
+    render status: 500, nothing: true
   end
 
   protected
