@@ -35,9 +35,7 @@ class CatarsePayulatam::PayulatamController < ApplicationController
   def respond
     backer = current_user.backs.find params[:id]
     begin
-      payulatam_response = Payulatam::Response.new(@@payulatam, params)
-      proccess_payulatam_response(backer, payulatam_response)
-      if payulatam_response.valid?
+      if proccess_payulatam_response(backer, params)
         flash[:success] = t('success', scope: SCOPE)
         redirect_to main_app.project_backer_path(project_id: backer.project.id, id: backer.id)
       else
@@ -53,9 +51,7 @@ class CatarsePayulatam::PayulatamController < ApplicationController
 
   def confirm
     backer = Backer.find params[:id]
-    payulatam_response = Payulatam::Response.new(@@payulatam, params)
-    proccess_payulatam_response(backer, payulatam_response)
-    if payulatam_response.valid?
+    if proccess_payulatam_response(backer, params)
       render status: 200, nothing: true
     else
       render status: 422, nothing: true
@@ -67,9 +63,11 @@ class CatarsePayulatam::PayulatamController < ApplicationController
 
   protected
 
-  def proccess_payulatam_response(backer, payulatam_response)
-    PaymentEngines.create_payment_notification backer_id: backer.id, extra_data: payulatam_response.params
+  def proccess_payulatam_response(backer, params)
+    PaymentEngines.create_payment_notification backer_id: backer.id, extra_data: params
+    payulatam_response = Payulatam::Response.new(@@payulatam, params)
     return unless payulatam_response.valid?
+    return unless backer.payment_method == "PayULatam" && backer.payment_token == payulatam_response.reference
     if payulatam_response.success?
       backer.confirm!  
     elsif payulatam_response.failure?
@@ -77,6 +75,7 @@ class CatarsePayulatam::PayulatamController < ApplicationController
     else
       backer.waiting! if backer.pending?
     end
+    true
   end
 
   def setup_payulatam
