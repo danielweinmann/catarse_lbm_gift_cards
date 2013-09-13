@@ -14,11 +14,9 @@ class CatarsePayulatam::PayulatamController < ApplicationController
   def review
     backer = current_user.backs.not_confirmed.find params[:id]
     if backer
-      transaction_id = (Digest::MD5.hexdigest "#{SecureRandom.hex(5)}-#{DateTime.now.to_s}")[1..20].downcase
       backer.update_attribute :payment_method, 'PayULatam'
-      backer.update_attribute :payment_token, transaction_id
       payment = @@payulatam.payment({
-        reference: transaction_id,
+        reference: backer.key,
         description: t('payulatam_description', scope: SCOPE, :project_name => backer.project.name, :value => backer.display_value),
         amount: backer.value,
         currency: t('number.currency.format.unit'),
@@ -67,7 +65,8 @@ class CatarsePayulatam::PayulatamController < ApplicationController
     PaymentEngines.create_payment_notification backer_id: backer.id, extra_data: params
     payulatam_response = Payulatam::Response.new(@@payulatam, params)
     return unless payulatam_response.valid?
-    return unless backer.payment_method == "PayULatam" && backer.payment_token == payulatam_response.reference
+    return unless backer.payment_method == "PayULatam" && backer.key == payulatam_response.reference
+    backer.update_attribute :payment_id, payulatam_response.transaction_id
     if payulatam_response.success?
       backer.confirm!  
     elsif payulatam_response.failure?
