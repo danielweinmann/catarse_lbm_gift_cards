@@ -1,1 +1,1 @@
-PaymentEngines.register({name: 'payulatam', review_path: ->(backer){ CatarsePayulatam::Engine.routes.url_helpers.review_payulatam_path(backer) }, locale: 'es'})
+PaymentEngines.register({name: 'payroll', review_path: ->(backer){ CatarsePayroll::Engine.routes.url_helpers.review_payroll_path(backer) }, locale: 'es'})

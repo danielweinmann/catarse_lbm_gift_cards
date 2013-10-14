@@ -1,13 +1,12 @@
-# CatarsePayulatam
+# CatarsePayroll
 
-PayU Latam integration with [Catarse](http://github.com/catarse/catarse) crowdfunding platform
+[Catarse](http://github.com/catarse/catarse) payment engine for corporate payroll payments
 
 ## Installation
 
-Add this lines to your Catarse application's Gemfile:
+Add this line to your Catarse application's Gemfile:
 
-    gem 'payulatam', git: 'git://github.com/danielweinmann/payulatam.git'
-    gem 'catarse_payulatam'
+    gem 'catarse_payroll'
 
 And then execute:
 
@@ -17,27 +16,13 @@ And then execute:
 
 Configure the routes for your Catarse application. Add the following lines in the routes file (config/routes.rb):
 
-    mount CatarsePayulatam::Engine => "/", :as => "catarse_payulatam"
-
-### Configurations
-
-Create this configurations into Catarse database:
-
-    payulatam_merchant, payulatam_account, payulatam_key, payulatam_login, payulatam_test
-
-In Rails console, run this:
-
-    Configuration.create!(name: "payulatam_merchant", value: "123456")
-    Configuration.create!(name: "payulatam_account", value: "1234567")
-    Configuration.create!(name: "payulatam_key", value: "31231231241")
-    Configuration.create!(name: "payulatam_login", value: "32131231231231")
-    Configuration.create!(name: "payulatam_test", value: "true")
+    mount CatarsePayroll::Engine => "/", :as => "catarse_payroll"
 
 ## Development environment setup
 
 Clone the repository:
 
-    $ git clone git://github.com/danielweinmann/catarse_payulatam.git
+    $ git clone git://github.com/danielweinmann/catarse_payroll.git
 
 Add the Catarse code into test/dummy:
 

@@ -1,5 +1,5 @@
-CatarsePayulatam::Engine.routes.draw do
-  resources :payulatam, only: [], path: 'payment/payulatam' do
+CatarsePayroll::Engine.routes.draw do
+  resources :payroll, only: [], path: 'payment/payroll' do
 	  member do
 	    get :review
 	    match :respond

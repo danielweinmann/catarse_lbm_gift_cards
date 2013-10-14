@@ -35,7 +35,7 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
 
   # Include Engine routes (needed for Controller specs)
-  config.include CatarsePayulatam::Engine.routes.url_helpers
+  config.include CatarsePayroll::Engine.routes.url_helpers
 
   # Include Catarse routes
   config.include Catarse::Application.routes.url_helpers
@@ -61,21 +61,21 @@ def fixture_file(filename)
   File.read(file_path)
 end
 
-def payulatam_url(path, options = {})
+def payroll_url(path, options = {})
   options[:https] = true if options[:https].nil?
   options[:country] ||= 'argentina'
   protocol = (options[:https] == true) ? 'https' : 'http'
-  "#{protocol}://#{options[:country]}.payulatam.com#{path}"
+  "#{protocol}://#{options[:country]}.payroll.com#{path}"
 end
 
 def stub_get(path, filename, options={})
   opts = {:body => fixture_file(filename)}.merge(options)
 
-  FakeWeb.register_uri(:get, payulatam_url(path), opts)
+  FakeWeb.register_uri(:get, payroll_url(path), opts)
 end
 
 def stub_post(path, filename, options={})
   opts = {:body => fixture_file(filename)}.merge(options)
 
-  FakeWeb.register_uri(:post, payulatam_url(path, options[:url]), opts)
+  FakeWeb.register_uri(:post, payroll_url(path, options[:url]), opts)
 end
