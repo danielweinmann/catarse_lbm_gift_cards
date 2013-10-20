@@ -1,3 +1,20 @@
-h3= t('projects.backers.review.payroll_title')
+- scope = 'projects.backers.review.payroll_info'
+
+h3= t('title', scope: scope)
 #catarse_payroll_form
-  = raw @form
+  = form_tag pay_payroll_path(params[:id]) do
+    .clearfix
+    .bootstrap-twitter
+      = label_tag 'company_name', t('company_name', scope: scope)
+      .clearfix
+      = select_tag 'company_name', options_for_select(@companies)
+      .clearfix
+      = label_tag 'employee_id', t('employee_id', scope: scope)
+      .clearfix
+      = text_field_tag 'employee_id', nil, { autocomplete: 'off' }
+      .clearfix
+      fieldset.accept_terms
+        = check_box_tag 'accept_terms', '1', false
+        = label_tag 'accept_terms', t('accept_terms_html', scope: scope), class: 'inline'
+      .loader.hide= image_tag 'loading.gif'
+      = submit_tag t('submit', scope: scope), class: 'btn btn-primary btn-large disabled', disabled: true
