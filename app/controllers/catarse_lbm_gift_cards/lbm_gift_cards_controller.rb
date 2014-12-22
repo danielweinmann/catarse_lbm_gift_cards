@@ -1,11 +1,11 @@
 # encoding: utf-8
-class CatarsePayroll::PayrollController < ApplicationController
+class CatarseLbmGiftCards::LbmGiftCardsController < ApplicationController
 
   skip_before_filter :force_http
   
   layout :false
 
-  SCOPE = 'projects.backers.review.payroll_info'
+  SCOPE = 'projects.backers.review.lbm_gift_cards_info'
 
   def review
     @companies = t('companies', scope: SCOPE).split(',').map(&:strip)
@@ -16,7 +16,7 @@ class CatarsePayroll::PayrollController < ApplicationController
   def pay
     backer = current_user.backs.not_confirmed.find params[:id]
     if backer
-      backer.update_attribute :payment_method, 'Payroll'
+      backer.update_attribute :payment_method, 'LbmGiftCard'
       backer.update_attribute :payment_choice, params[:company_name]
       backer.update_attribute :payment_id, params[:employee_id]
       backer.waiting!

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    catarse_payroll (0.0.1)
+    catarse_lbm_gift_cards (0.0.1)
       rails (~> 3.2.6)
 
 GEM
@@ -109,7 +109,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  catarse_payroll!
+  catarse_lbm_gift_cards!
   database_cleaner
   factory_girl_rails
   fakeweb

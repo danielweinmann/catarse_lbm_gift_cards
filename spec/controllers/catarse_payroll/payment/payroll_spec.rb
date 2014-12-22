@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe CatarsePayroll::Payment::PayrollController do
+describe CatarseLbmGiftCards::Payment::LbmGiftCardsController do
 end

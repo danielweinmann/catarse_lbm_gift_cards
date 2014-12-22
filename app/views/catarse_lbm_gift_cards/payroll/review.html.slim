@@ -1,8 +1,8 @@
-- scope = 'projects.backers.review.payroll_info'
+- scope = 'projects.backers.review.lbm_gift_cards_info'
 
 h3= t('title', scope: scope)
-#catarse_payroll_form
-  = form_tag pay_payroll_path(params[:id]) do
+#catarse_lbm_gift_cards_form
+  = form_tag pay_lbm_gift_cards_path(params[:id]) do
     .clearfix
     .bootstrap-twitter
       = label_tag 'company_name', t('company_name', scope: scope)

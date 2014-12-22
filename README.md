@@ -1,12 +1,12 @@
-# CatarsePayroll
+# CatarseLbmGiftCards
 
-[Catarse](http://github.com/catarse/catarse) payment engine for corporate payroll payments
+[Catarse](http://github.com/catarse/catarse) payment engine for LittleBigMoney Gift Cards
 
 ## Installation
 
 Add this line to your Catarse application's Gemfile:
 
-    gem 'catarse_payroll'
+    gem 'catarse_lbm_gift_cards'
 
 And then execute:
 
@@ -16,13 +16,13 @@ And then execute:
 
 Configure the routes for your Catarse application. Add the following lines in the routes file (config/routes.rb):
 
-    mount CatarsePayroll::Engine => "/", :as => "catarse_payroll"
+    mount CatarseLbmGiftCards::Engine => "/", :as => "catarse_lbm_gift_cards"
 
 ## Development environment setup
 
 Clone the repository:
 
-    $ git clone git://github.com/danielweinmann/catarse_payroll.git
+    $ git clone git://github.com/danielweinmann/catarse_lbm_gift_cards.git
 
 Add the Catarse code into test/dummy:
 
