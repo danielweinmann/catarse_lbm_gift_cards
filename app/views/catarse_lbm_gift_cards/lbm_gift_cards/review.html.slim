@@ -2,16 +2,12 @@
 
 h3= t('title', scope: scope)
 #catarse_lbm_gift_cards_form
-  = form_tag pay_lbm_gift_cards_path(params[:id]) do
+  = form_tag pay_lbm_gift_card_path(params[:id]) do
     .clearfix
     .bootstrap-twitter
-      = label_tag 'company_name', t('company_name', scope: scope)
+      = label_tag 'coupon', t('coupon', scope: scope)
       .clearfix
-      = select_tag 'company_name', options_for_select(@companies)
-      .clearfix
-      = label_tag 'employee_id', t('employee_id', scope: scope)
-      .clearfix
-      = text_field_tag 'employee_id', nil, { autocomplete: 'off' }
+      = text_field_tag 'coupon', nil, { autocomplete: 'off' }
       .clearfix
       fieldset.accept_terms
         = check_box_tag 'accept_terms', '1', false
